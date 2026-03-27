@@ -1,0 +1,18 @@
+user:
+  outputs:
+    default:
+      account: LMESXCD-UP67786
+      auth_type: password
+      client_session_keep_alive: false
+      connect_retries: 3
+      connect_timeout: 30
+      database: oc_profil_sd_dbt
+      password: Hippopotame76&
+      retry_on_database_errors: true
+      role: null
+      schema: dbt_dev
+      threads: 6
+      type: snowflake
+      user: cgwena
+      warehouse: COMPUTE_WH
+  target: default
