@@ -1,0 +1,21 @@
+version: 2
+
+models: 
+  - name: stg_students_info
+    description: informations about openclassrooms students
+    columns:
+      - name: user_id
+        data_tests:
+          - not_null
+      - name: oc_age_group
+        description: age groups in the raw openclassrooms data
+        data_tests:
+          - accepted_values: 
+              arguments:
+                values: ['20-24 ans', '25-29 ans', '30-34 ans', '35-39 ans', '40-44 ans', '45-49 ans','50-54 ans', '55-59 ans', '60 ans ou plus']
+      - name: insee_age_group
+        description: age groups ccording to insee data
+        data_tests:
+          - accepted_values:
+              arguments: 
+                values: ['15-24 ans', '25-49 ans', '50 ans ou plus']

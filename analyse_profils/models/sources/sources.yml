@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: data_analysis
+    schema : raw 
+    tables:
+      - name: students_info
+        description: raw data about openclassrooms students
+      - name: insee_chomage_age
+        description: raw data about unemployment in france according to age
+      - name: insee_chomage_genre
+        description: raw data about unemployment in france according to gender
