@@ -19,19 +19,38 @@ models:
               arguments:
                 values: ['20-24 ans', '25-29 ans', '30-34 ans', '35-39 ans', '40-44 ans', '45-49 ans','50-54 ans', '55-59 ans', '60 ans ou plus']
       - name: insee_age_group
-        description: age groups ccording to insee data
+        description: age groups according to insee data
         data_tests:
           - accepted_values:
               arguments: 
                 values: ['15-24 ans', '25-49 ans', '50 ans ou plus']
+      - name: gender
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['M', 'F', 'unknown']
   - name: stg_insee_chomage_age
+    description: unemployment data by age group since 2022
     columns:
       - name: Annee 
         data_tests:
           - not_null
+      - name: Trimestre
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['T1', 'T2', 'T3', 'T4']
   - name: stg_insee_chomage_genre
+    description: unemployment data by gender group since 2022
     columns:
       - name: Annee 
         data_tests:
           - not_null
+      - name: Trimestre
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['T1', 'T2', 'T3', 'T4']
   

@@ -1,5 +1,5 @@
 select 
-    concat(user_id, year_path_started) as student_year_id,
+    concat(user_id, '_', year_path_started) as student_year_id,
     user_id,
     path_category_name,
     age_group as oc_age_group,
