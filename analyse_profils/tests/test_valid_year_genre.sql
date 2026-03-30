@@ -1,0 +1,1 @@
+select * from {{ ref('stg_insee_chomage_genre')}} where Annee > year(current_date())

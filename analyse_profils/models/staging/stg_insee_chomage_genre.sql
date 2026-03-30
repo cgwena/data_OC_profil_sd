@@ -1,8 +1,8 @@
 select 
     Annee,
-    round(avg(REPLACE(Femmes, ',', '.')::NUMBER(10,2)), 1) as chomage_femmes,
-    round(avg(REPLACE(Hommes, ',', '.')::NUMBER(10,2)), 1) as chomage_hommes,
-    round(avg(REPLACE(Ensemble, ',', '.')::NUMBER(10,2)), 1) as chomage_ensemble
+    Trimestre,
+    REPLACE(Femmes, ',', '.')::NUMBER(10,2) as taux_femmes,
+    REPLACE(Hommes, ',', '.')::NUMBER(10,2) as taux_hommes,
+    REPLACE(Ensemble, ',', '.')::NUMBER(10,2) as taux_ensemble_genre
 from {{ source('data_analysis', 'insee_chomage_genre')}}
-where Annee between 2022 and 2025
-group by Annee
+where Annee between 2022 and year(current_date())
