@@ -29,4 +29,8 @@ models:
       - name: Annee 
         data_tests:
           - not_null
-          
+  - name: stg_insee_chomage_genre
+    columns:
+      - name: Annee 
+        data_tests:
+          - not_null
