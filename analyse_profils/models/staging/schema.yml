@@ -34,3 +34,4 @@ models:
       - name: Annee 
         data_tests:
           - not_null
+  
