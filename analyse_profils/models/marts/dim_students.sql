@@ -13,6 +13,7 @@ students_profils_sd as (
         s.student_year_id,
         s.user_id,
         s.path_category_name,
+        s.oc_age_group,
         s.insee_age_group,
         s.gender,
         s.region,
@@ -27,7 +28,7 @@ students_profils_sd as (
         case 
             when s.gender = 'F' then g.chomage_femmes
             when s.gender = 'M' then g.chomage_hommes
-            WHEN s.gender = 'unknown' then g.chomage_ensemble_genre
+            when s.gender = 'unknown' then g.chomage_ensemble_genre
         end as taux_chomage_genre,
 
     from students s 

@@ -10,6 +10,6 @@ select
         else 'unknown'
     end as insee_age_group,
     coalesce(gender, 'unknown') as gender,
-    region,
+    upper({{ clean_accents('REGION') }}) as region,
     year_path_started
 from {{ source('data_analysis','students_info') }}
