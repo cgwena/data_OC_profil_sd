@@ -10,3 +10,5 @@ sources:
         description: raw data about unemployment in france according to age
       - name: insee_chomage_genre
         description: raw data about unemployment in france according to gender
+      - name: insee_chomage_region
+        description: raw data about unemployment in france according to region

@@ -17,3 +17,11 @@ models:
         data_tests: 
           - not_null
           - unique
+  - name: int_insee_chomage_region
+    description: unemployment data by region group since 2022, grouped by year
+    columns:
+      - name: Annee 
+        description: primary key
+        data_tests: 
+          - not_null
+          
