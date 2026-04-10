@@ -1,8 +1,27 @@
+with data_preparee as (
+    select 
+        Annee,
+        taux_15_24,
+        taux_25_49,
+        taux_50_plus,
+        Ensemble
+    from {{ ref('stg_insee_chomage_age'))}}
+),
+
+unpivoted_age as (
+    select
+        Annee,
+        age,
+        taux_chomage_age
+    from data_preparee
+    unpivot (
+        taux_chomage_age for age in (taux_15_24, taux_25_49, taux_50_plus, Ensemble) 
+    )
+)
+
 select 
     Annee,
-    round(avg(taux_15_24), 1) as chomage_15_24,
-    round(avg(taux_25_49), 1) as chomage_25_49,
-    round(avg(taux_50_plus), 1) as chomage_50_plus,
-    round(avg(taux_ensemble_age), 1) as chomage_ensemble_age
-from {{ ref('stg_insee_chomage_age')}}
-group by Annee
+    age,
+    round(avg(taux_chomage_age), 2) as taux_chomage_age
+from unpivoted_ge
+group by Annee, age
