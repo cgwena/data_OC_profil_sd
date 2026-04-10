@@ -4,7 +4,7 @@ with data_preparee as (
         Femmes,
         Hommes,
         Ensemble
-    from {{ source('data_analysis', 'insee_chomage_genre')}}
+    from {{ ref('stg_insee_chomage_genre')}}
 ),
 
 unpivoted_genre as (
@@ -18,7 +18,7 @@ unpivoted_genre as (
     )
 )
 
-SELECT 
+select 
     Annee,
     genre,
     round(avg(taux_chomage), 2) as taux_moyen_annuel

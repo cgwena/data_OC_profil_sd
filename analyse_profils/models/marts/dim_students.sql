@@ -7,6 +7,9 @@ insee_chomage_age as (
 insee_chomage_genre as (
     select * from {{ ref('int_insee_chomage_genre')}}
 ),
+insee_chomage_region as (
+    select * from {{ ref('int_insee_chomage_region')}}
+)
 
 students_profils_sd as (
     select
@@ -19,23 +22,20 @@ students_profils_sd as (
         s.region,
         s.year_path_started,
 
-        case 
-            when s.insee_age_group = '15-24 ans' then a.chomage_15_24
-            when s.insee_age_group = '25-49 ans' then a.chomage_25_49
-            when s.insee_age_group = '50 ans ou plus' then a.chomage_50_plus
-        end as taux_chomage_age,
-
-        case 
-            when s.gender = 'F' then g.chomage_femmes
-            when s.gender = 'M' then g.chomage_hommes
-            when s.gender = 'unknown' then g.chomage_ensemble_genre
-        end as taux_chomage_genre,
+        a.taux_chomage_age as taux_chomage_age,
+        g.taux_chomage_genre as taux_chomage_genre,
+        r.taux_chomage_region as taux_chomage_region
 
     from students s 
     left join insee_chomage_age a 
         on s.year_path_started = a.annee 
+        and s.insee_age_group = a.age
     left join insee_chomage_genre g 
         on s.year_path_started = g.annee
+        and s.gender = g.genre
+    left join insee_chomage_region r
+        on s.year_path_started = r.annee
+        and s.region = r.region
 )
 
 select * from students_profils_sd
