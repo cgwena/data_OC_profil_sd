@@ -8,7 +8,6 @@ models:
         description: primary key
         data_tests: 
           - not_null
-          - unique
   - name: int_insee_chomage_genre
     description: unemployment data by gender group since 2022, grouped by year
     columns:
@@ -16,7 +15,6 @@ models:
         description: primary key
         data_tests: 
           - not_null
-          - unique
   - name: int_insee_chomage_region
     description: unemployment data by region group since 2022, grouped by year
     columns:

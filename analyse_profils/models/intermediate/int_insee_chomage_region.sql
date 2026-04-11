@@ -22,11 +22,11 @@ unpivoted_data as (
 select 
     code_region,
     nom_region,
-    right(periode, 4)::int as Annee,
+    right(periode, 4)::int as annee,
     round(AVG(taux_chomage_region), 2) as taux_chomage_region
 from unpivoted_data
-where Annee >= 2022
+where annee >= 2022
 group by 
     code_region,
     nom_region,
-    Annee
+    annee
