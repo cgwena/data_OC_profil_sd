@@ -1,26 +1,23 @@
-with data_preparee as (
-    select 
-        Annee,
-        Femmes,
-        Hommes,
-        Ensemble
-    from {{ ref('stg_insee_chomage_genre')}}
+with stg_genre as (
+    select * from {{ ref('stg_insee_chomage_genre') }}
 ),
 
 unpivoted_genre as (
     select
-        Annee,
+        annee,
         genre,
         taux_chomage_genre
-    from data_preparee
-    unpivot (
-        taux_chomage_genre for genre in (Femmes, Hommes, Ensemble) 
+    from stg_genre
+    UNPIVOT (
+        taux_chomage_genre for genre in (F, M, unknown) 
     )
 )
 
 select 
-    Annee,
-    genre,
-    round(avg(taux_chomage), 2) as taux_moyen_annuel
+    annee,
+    genre, 
+    ROUND(AVG(taux_chomage_genre), 2) as taux_chomage_genre
 from unpivoted_genre
-group by Annee, genre
+group by 
+    annee, 
+    genre

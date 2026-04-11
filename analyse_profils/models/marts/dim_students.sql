@@ -9,7 +9,7 @@ insee_chomage_genre as (
 ),
 insee_chomage_region as (
     select * from {{ ref('int_insee_chomage_region')}}
-)
+),
 
 students_profils_sd as (
     select
@@ -32,10 +32,10 @@ students_profils_sd as (
         and s.insee_age_group = a.age
     left join insee_chomage_genre g 
         on s.year_path_started = g.annee
-        and s.gender = g.genre
+        and upper(s.gender) = upper(g.genre)
     left join insee_chomage_region r
         on s.year_path_started = r.annee
-        and s.region = r.region
+        and s.region = r.nom_region
 )
 
 select * from students_profils_sd
