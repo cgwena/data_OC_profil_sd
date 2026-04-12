@@ -16,7 +16,7 @@ models:
         description: age groups in the raw openclassrooms data
         data_tests:
           - accepted_values: 
-              arguments:
+              arguments: 
                 values: ['20-24 ans', '25-29 ans', '30-34 ans', '35-39 ans', '40-44 ans', '45-49 ans','50-54 ans', '55-59 ans', '60 ans ou plus']
       - name: insee_age_group
         description: age groups according to insee data
@@ -27,30 +27,110 @@ models:
       - name: gender
         data_tests:
           - accepted_values:
-              arguments:
+              arguments: 
                 values: ['M', 'F', 'unknown']
+
   - name: stg_insee_chomage_age
-    description: unemployment data by age group since 2022
+    description: >
+      Modèle de nettoyage (staging) des données de chômage de l'Insee par tranche d'âge. 
+      Filtre les données à partir de 2022 et convertit les taux de chômage du format 
+      texte vers un format numérique grâce à la macro replace_comma.
     columns:
-      - name: Annee 
-        data_tests:
+      - name: Annee
+        description: Année de référence (à partir de 2022).
+        tests:
           - not_null
       - name: Trimestre
+        description: Trimestre de référence.
         data_tests:
-          - not_null
-          - accepted_values:
-              arguments: 
-                values: ['T1', 'T2', 'T3', 'T4']
+        - accepted_values:
+            arguments: 
+              values: ['T1', 'T2', 'T3', 'T4']
+      - name: '"15-24 ans"'
+        description: Taux de chômage moyen (%) pour la tranche d'âge 15-24 ans.
+      - name: '"25-49 ans"'
+        description: Taux de chômage moyen (%) pour la tranche d'âge 25-49 ans.
+      - name: '"50 ans ou plus"'
+        description: Taux de chômage moyen (%) pour la tranche d'âge 50 ans ou plus.
+      - name: Ensemble
+        description: Taux de chômage moyen (%) pour l'ensemble de la population (tous âges confondus).
+          
   - name: stg_insee_chomage_genre
-    description: unemployment data by gender group since 2022
+    description: >
+      Modèle de nettoyage (staging) des données de chômage de l'Insee par genre. 
+      Filtre les données à partir de 2022, convertit les taux en format numérique, et surtout 
+      renomme les colonnes de l'Insee (Femmes, Hommes, Ensemble) pour correspondre 
+      exactement aux valeurs de la base étudiants OpenClassrooms (F, M, unknown).
     columns:
-      - name: Annee 
+      - name: Annee
+        description: Année de référence (à partir de 2022).
         data_tests:
           - not_null
       - name: Trimestre
+        description: Trimestre de référence.
         data_tests:
+        - accepted_values:
+            arguments: 
+              values: ['T1', 'T2', 'T3', 'T4']
+      - name: F
+        description: Taux de chômage moyen (%) pour les femmes (source Insee)
+      - name: M
+        description: Taux de chômage moyen (%) pour les hommes (source Insee)
+      - name: unknown
+        description: Taux de chômage moyen (%) pour l'ensemble de la population. Utilisé par défaut pour les étudiants dont le genre n'est pas renseigné (source Insee)
+          
+
+  - name: stg_insee_chomage_region
+    description: >
+      Modèle de nettoyage (staging) des données de chômage régional de l'Insee. 
+      Ce modèle conserve la structure "large" (wide) de la source, mais standardise 
+      les noms de colonnes et convertit les taux de chômage du format texte 
+      (avec virgule) vers un format numérique (avec point) grâce à la macro replace_comma.
+    columns:
+      - name: code_region
+        description: Code officiel de la région (nomenclature Insee).
+        tests:
           - not_null
-          - accepted_values:
-              arguments: 
-                values: ['T1', 'T2', 'T3', 'T4']
+
+      - name: nom_region
+        description: Nom officiel de la région.
+        tests:
+          - unique
+          - not_null
+
+      - name: t1_2022
+        description: Taux de chômage (%) pour le 1er trimestre 2022.
+      - name: t2_2022
+        description: Taux de chômage (%) pour le 2ème trimestre 2022.
+      - name: t3_2022
+        description: Taux de chômage (%) pour le 3ème trimestre 2022.
+      - name: t4_2022
+        description: Taux de chômage (%) pour le 4ème trimestre 2022.
+        
+      - name: t1_2023
+        description: Taux de chômage (%) pour le 1er trimestre 2023.
+      - name: t2_2023
+        description: Taux de chômage (%) pour le 2ème trimestre 2023.
+      - name: t3_2023
+        description: Taux de chômage (%) pour le 3ème trimestre 2023.
+      - name: t4_2023
+        description: Taux de chômage (%) pour le 4ème trimestre 2023.
+
+      - name: t1_2024
+        description: Taux de chômage (%) pour le 1er trimestre 2024.
+      - name: t2_2024
+        description: Taux de chômage (%) pour le 2ème trimestre 2024.
+      - name: t3_2024
+        description: Taux de chômage (%) pour le 3ème trimestre 2024.
+      - name: t4_2024
+        description: Taux de chômage (%) pour le 4ème trimestre 2024.
+
+      - name: t1_2025
+        description: Taux de chômage (%) pour le 1er trimestre 2025.
+      - name: t2_2025
+        description: Taux de chômage (%) pour le 2ème trimestre 2025.
+      - name: t3_2025
+        description: Taux de chômage (%) pour le 3ème trimestre 2025.
+      - name: t4_2025
+        description: Taux de chômage (%) pour le 4ème trimestre 2025.
   

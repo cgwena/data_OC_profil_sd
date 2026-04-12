@@ -2,24 +2,59 @@ version: 2
 
 models:
   - name: int_insee_chomage_age
-    description: unemployment data by age group since 2022, grouped by year
+    description: >
+      Modèle intermédiaire transformant les données de chômage par âge. 
+      Utilise la fonction UNPIVOT pour passer d'un format large (colonnes) à 
+      un format long (lignes), puis calcule la moyenne annuelle du taux de chômage 
+      pour chaque tranche d'âge.
     columns:
-      - name: Annee 
-        description: primary key
-        data_tests: 
+      - name: annee
+        description: Année de calcul de la moyenne (à partir de 2022).
+        data_tests:
           - not_null
+      - name: age
+        description: Tranche d'âge standardisée Insee (15-24 ans, 25-49 ans, 50 ans ou plus).
+        data_tests:
+          - not_null
+      - name: taux_chomage_age
+        description: Taux de chômage annuel moyen (en %) pour cette tranche d'âge.
+
   - name: int_insee_chomage_genre
-    description: unemployment data by gender group since 2022, grouped by year
+    description: >
+      Modèle intermédiaire transformant les données de chômage par genre. 
+      Utilise la fonction UNPIVOT pour passer d'un format large à un format long, 
+      puis calcule la moyenne annuelle du taux de chômage pour chaque genre.
     columns:
-      - name: Annee 
-        description: primary key
-        data_tests: 
+      - name: annee
+        description: Année de calcul de la moyenne (à partir de 2022).
+        data_tests:
           - not_null
+      - name: genre
+        description: Genre (F, M, unknown).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: [F, M, UNKNOWN]
+      - name: taux_chomage_genre
+        description: Taux de chômage annuel moyen (en %) pour ce genre.
+
   - name: int_insee_chomage_region
-    description: unemployment data by region group since 2022, grouped by year
+    description: >
+      Modèle intermédiaire transformant les données de chômage par région. 
+      Applique un UNPIVOT sur les trimestres, extrait l'année de la période, 
+      regroupe les territoires d'outre-mer sous l'appellation 'DROM', corrige 
+      la casse de 'GRAND EST', et calcule la moyenne annuelle par région.
     columns:
-      - name: Annee 
-        description: primary key
-        data_tests: 
+      - name: code_region
+        description: Code officiel de la région Insee.
+      - name: nom_region
+        description: Nom de la région (regroupé pour les DROM et standardisé).
+        data_tests:
           - not_null
-          
+      - name: annee
+        description: Année extraite de la période trimestrielle.
+        data_tests:
+          - not_null
+      - name: taux_chomage_region
+        description: Taux de chômage annuel moyen (en %) pour cette région géographique.
