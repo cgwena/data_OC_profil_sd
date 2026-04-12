@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: dim_students
+    description: >
+      Table de dimension consolidée contenant le profil sociodémographique complet des étudiants OpenClassrooms, enrichi avec 
+      les indicateurs (taux de chômage) de l'Insee selon l'année, l'âge, le genre et la région.
+    columns:
+      - name: student_year_id
+        description: Clé primaire unique. Concaténation de l'identifiant utilisateur et de l'année de début de parcours.
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: Identifiant unique de l'étudiant chez OpenClassrooms.
+        data_tests:
+          - not_null
+      - name: path_category_name
+        description: Domaine ou catégorie de la formation suivie (Data).
+      - name: oc_age_group
+        description: Tranche d'âge déclarée par l'étudiant à l'inscription.
+      - name: insee_age_group
+        description: Tranche d'âge re-catégorisée pour correspondre au standard de l'Insee (15-24 ans, 25-49 ans, 50 ans ou plus).
+        data_tests:
+          - accepted_values: 
+              arguments: 
+               values: ['15-24 ans', '25-49 ans', '50 ans ou plus']
+      - name: gender
+        description: Genre de l'étudiant.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['F', 'M', 'unknown']
+      - name: region
+        description: Région de résidence de l'étudiant, nettoyée (sans accents, en majuscules) et regroupée.
+      - name: year_path_started
+        description: Année durant laquelle l'étudiant a commencé son parcours de formation.
+        data_tests:
+          - not_null
+      - name: taux_chomage_age
+        description: Taux de chômage moyen national (en %) pour l'année et la tranche d'âge spécifiques de l'étudiant (Source = Insee).
+      - name: taux_chomage_genre
+        description: Taux de chômage moyen national (en %) pour l'année et le genre spécifiques de l'étudiant (Source = Insee).
+      - name: taux_chomage_region
+        description: Taux de chômage moyen (en %) pour l'année et la région de résidence spécifiques de l'étudiant (Source = Insee).
